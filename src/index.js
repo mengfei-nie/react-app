@@ -7,13 +7,16 @@ import { Provider } from 'react-redux'
 
 import { createStore } from 'redux'
 
-const reducer = (prevState = { phone: 13237152485, password: 123456 }) => {
+const reducer = (prevState = { phone: 13237152485, password: 123456 },action) => {
+    switch (action.type) {
+        case 'rename':
+            console.log( {...prevState,password: action.text})
+            return {...prevState,password: action.text}
+    }
     return prevState
 }
 
 const store = createStore(reducer)
-
-console.log(store.getState())
 
 ReactDOM.render(
     <Provider store={store}>

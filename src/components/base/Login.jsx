@@ -7,15 +7,18 @@ class Login extends Component {
     componentDidMount() {
         console.log(this.props)
     }
+    componentWillUpdate(a) {
+        console.log(a)
+    }
     render() {
         return (
             <List>
                 <InputItem defaultValue={this.props.phone} className="p-t-50">
-                    账号
+                    账号 {this.props.password}
                 </InputItem>
                 <InputItem
                     className="p-t-50"
-                    defaultValue={this.props.password}
+                    value={this.props.password}
                 >
                     密码
                 </InputItem>
@@ -23,7 +26,8 @@ class Login extends Component {
                 <div className="a-block__wrap">
                     <Button
                         type="primary"
-                        onClick={() => this.props.history.push('/', { a: 1 })}
+                        // onClick={() => this.props.history.push('/', { a: 1 })}
+                        onClick={this.props.handleClick}
                     >
                         登入
                     </Button>
@@ -33,15 +37,22 @@ class Login extends Component {
     }
 }
 
+const rename = (id)=>{
+    return {
+        type: 'rename',
+        text: '987654'
+    }
+}
+
 // 组件和redux 连接
 export default connect(
     (state, ownProps) => {
-        console.log(state, ownProps)
+        console.log(state)
         return state
     },
-    // (dispatch, ownProps) => {
-    //     console.log(dispatch, ownProps)
-    //     return dispatch
-    // }
+    (dispatch, ownProps) => {
+        return {
+            handleClick:id=>dispatch(rename(id))
+        }
+    }
 )(Login)
-// export default Login
