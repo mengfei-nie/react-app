@@ -2,57 +2,73 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { List, InputItem, Button } from 'antd-mobile'
 import '@assets/css/login.scss'
+import { fetchBanner, clickLogin } from '../../store/action'
 
 class Login extends Component {
-    componentDidMount() {
-        console.log(this.props)
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            password: props.password
+        }
+        this.handleChange = this.handleChange.bind(this)
     }
-    componentWillUpdate(a) {
-        console.log(a)
+    UNSAFE_componentWillMount() {
+        this.props.fetchBanner()
+    }
+    UNSAFE_componentWillReceiveProps(nextProps, nextState) {
+        this.setState({
+            password: nextProps.password
+        })
+    }
+    handleChange(val) {
+        this.setState({
+            password: val
+        })
     }
     render() {
         return (
-            <List>
-                <InputItem defaultValue={this.props.phone} className="p-t-50">
-                    账号 {this.props.password}
-                </InputItem>
-                <InputItem
-                    className="p-t-50"
-                    value={this.props.password}
-                >
-                    密码
-                </InputItem>
-
-                <div className="a-block__wrap">
-                    <Button
-                        type="primary"
-                        // onClick={() => this.props.history.push('/', { a: 1 })}
-                        onClick={this.props.handleClick}
+            <React.Fragment>
+                <List>
+                    <InputItem
+                        defaultValue={this.props.phone}
+                        className="p-t-50"
                     >
-                        登入
-                    </Button>
-                </div>
-            </List>
-        )
-    }
-}
+                        账号
+                    </InputItem>
+                    <InputItem
+                        className="p-t-50"
+                        value={this.state.password}
+                        onChange={this.handleChange}
+                    >
+                        密码
+                    </InputItem>
 
-const rename = (id)=>{
-    return {
-        type: 'rename',
-        text: '987654'
+                    <div className="a-block__wrap">
+                        <Button type="primary" onClick={this.props.handleClick}>
+                            登入
+                        </Button>
+                    </div>
+                </List>
+                <div className="banner">
+                    {this.props.list.map((item, i) => {
+                        return <img width="100%" src={item.bannerImg} key={i} />
+                    })}
+                </div>
+            </React.Fragment>
+        )
     }
 }
 
 // 组件和redux 连接
 export default connect(
     (state, ownProps) => {
-        console.log(state)
-        return state
+        return state.login
     },
     (dispatch, ownProps) => {
         return {
-            handleClick:id=>dispatch(rename(id))
+            fetchBanner: () => dispatch(fetchBanner()),
+            handleClick: () => dispatch(clickLogin)
         }
     }
 )(Login)

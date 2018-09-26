@@ -1,7 +1,7 @@
 import React, { Component, createContext, forwardRef } from 'react'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group' // 动画组件
 import '@assets/css/home.scss'
-console.log(ReactCSSTransitionGroup)
+
 const ThemeContext = createContext('light')
 
 const ThemeButton = forwardRef((props, ref) => {

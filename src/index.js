@@ -1,22 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import '@assets/css/index.css'
-import 'antd-mobile/dist/antd-mobile.css'
 import App from './App'
 import { Provider } from 'react-redux'
+import reducer from './store/reducer'
+import { createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk' // 异步数据流中间件
 
-import { createStore } from 'redux'
+import '@assets/css/index.css'
+import 'antd-mobile/dist/antd-mobile.css'
 
-const reducer = (prevState = { phone: 13237152485, password: 123456 },action) => {
-    switch (action.type) {
-        case 'rename':
-            console.log( {...prevState,password: action.text})
-            return {...prevState,password: action.text}
-    }
-    return prevState
-}
-
-const store = createStore(reducer)
+const store = createStore(reducer, applyMiddleware(thunk))
 
 ReactDOM.render(
     <Provider store={store}>
